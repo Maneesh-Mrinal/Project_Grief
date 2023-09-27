@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TarodevController;
+
 public class Enemy1Controls : MonoBehaviour
 {
     public Transform startPoint;
@@ -12,7 +13,7 @@ public class Enemy1Controls : MonoBehaviour
 
     private void Start()
     {
-        targetPoint = endPoint; // Start by moving towards the endpoint
+        targetPoint = endPoint; // Start by moving towards the endPoint
     }
 
     private void Update()
@@ -22,21 +23,15 @@ public class Enemy1Controls : MonoBehaviour
 
     private void MoveTowardsTarget()
     {
-        // Move towards the current target point
         transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, moveSpeed * Time.deltaTime);
 
-        // Check if we have reached the current target point
-        if (transform.position == targetPoint.position)
+        if (transform.position == endPoint.position)
         {
-            // Switch target points to create a continuous loop
-            if (targetPoint == endPoint)
-            {
-                targetPoint = startPoint;
-            }
-            else
-            {
-                targetPoint = endPoint;
-            }
+            targetPoint = startPoint; // Change direction when reaching endPoint
+        }
+        else if (transform.position == startPoint.position)
+        {
+            targetPoint = endPoint; // Change direction when reaching startPoint
         }
     }
 
@@ -52,3 +47,7 @@ public class Enemy1Controls : MonoBehaviour
         }
     }
 }
+
+
+
+
