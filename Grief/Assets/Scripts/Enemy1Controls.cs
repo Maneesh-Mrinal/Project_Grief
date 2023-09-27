@@ -1,38 +1,25 @@
-using System.Collections;
 using UnityEngine;
-using TarodevController;
+using UnityEngine.UI;
+using TarodevController; // Make sure to include the necessary namespace if not already included
 
 public class Enemy1Controls : MonoBehaviour
 {
-    public Transform startPoint;
-    public Transform endPoint;
     public float moveSpeed = 2.0f;
     public int damageOnHit = 1;
 
-    private Transform targetPoint;
-
+    private bool movingRight = false;
+    private GameManager gameManager;
+    
     private void Start()
     {
-        targetPoint = endPoint; // Start by moving towards the endPoint
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Update()
     {
-        MoveTowardsTarget();
-    }
-
-    private void MoveTowardsTarget()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, moveSpeed * Time.deltaTime);
-
-        if (transform.position == endPoint.position)
-        {
-            targetPoint = startPoint; // Change direction when reaching endPoint
-        }
-        else if (transform.position == startPoint.position)
-        {
-            targetPoint = endPoint; // Change direction when reaching startPoint
-        }
+        // Move in the current direction
+        Vector3 moveDirection = movingRight ? Vector3.right : Vector3.left;
+        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -42,12 +29,15 @@ public class Enemy1Controls : MonoBehaviour
             PlayerController player = other.GetComponent<PlayerController>();
             if (player != null)
             {
-                player.TakeDamage(damageOnHit);
+                // Reduce player hit points
+                gameManager.PlayerHit(damageOnHit);
             }
+        }
+
+        // Switch direction if the trigger is hit
+        if (other.isTrigger)
+        {
+            movingRight = !movingRight;
         }
     }
 }
-
-
-
-
