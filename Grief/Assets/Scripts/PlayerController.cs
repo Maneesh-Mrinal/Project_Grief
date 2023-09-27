@@ -3,13 +3,6 @@ using System.Linq;
 using UnityEngine;
 
 namespace TarodevController {
-    /// <summary>
-    /// Hey!
-    /// Tarodev here. I built this controller as there was a severe lack of quality & free 2D controllers out there.
-    /// Right now it only contains movement and jumping, but it should be pretty easy to expand... I may even do it myself
-    /// if there's enough interest. You can play and compete for best times here: https://tarodev.itch.io/
-    /// If you hve any questions or would like to brag about your score, come to discord: https://discord.gg/GqeHHnhHpz
-    /// </summary>
     public class PlayerController : MonoBehaviour, IPlayerController {
         // Public for external hooks
         public Vector3 Velocity { get; private set; }
@@ -17,6 +10,7 @@ namespace TarodevController {
         public bool JumpingThisFrame { get; private set; }
         public bool LandingThisFrame { get; private set; }
         public Vector3 RawMovement { get; private set; }
+        private int hitPoints = 3;
         public bool Grounded => _colDown;
 
         private Vector3 _lastPosition;
@@ -297,5 +291,15 @@ namespace TarodevController {
         }
 
         #endregion
+
+        public void TakeDamage(int damageAmount) {
+            hitPoints -= damageAmount;
+            
+            // Check if the player's hit points have reached zero
+            if (hitPoints <= 0) {
+                // Handle player death or game over logic here
+                // For example, you can call a method to end the game or restart a level.
+            }
+        }
     }
 }
