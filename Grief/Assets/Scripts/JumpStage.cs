@@ -5,11 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class JumpStage : MonoBehaviour
 {
-    void OnCollisionEnter(Collision others)
+    public void JumpScene()
     {
-        if(others.gameObject.tag == "Player")
-        {
-            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
-        }
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
